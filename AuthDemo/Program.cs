@@ -1,7 +1,9 @@
 using AuthDemo.API.ServiceCollectionExtensions;
 using AuthDemo.API.Swagger;
+using AuthDemo.Infrastructure.BusinessLogic;
 using AuthDemo.Infrastructure.BusinessLogic.Auth;
 using AuthDemo.Infrastructure.Dapper;
+using AuthDemo.Infrastructure.Dapper.BooksRepository;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -19,7 +21,10 @@ builder.Services.AddJwtService(builder.Configuration);
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped(typeof(IDapperRepository<>), typeof(DapperRepository<>));
+builder.Services.AddScoped<IBookRepository, BooksRepository>();
+
 builder.Services.AddTransient<IAuthBusinessLogic, AuthBusinessLogic>();
+builder.Services.AddTransient<IAuthorBusinessLogic, AuthorBusinessLogic>();
 var app = builder.Build();
 
 app.UseSwagger();

@@ -11,7 +11,6 @@ namespace AuthDemos.Core.Entities
 {
     public class UserRefreshTokens 
     {
-        public UserRefreshTokens() { }
         public int Id { get; set; }
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }

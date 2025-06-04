@@ -1,12 +1,13 @@
 ﻿using AuthDemo.Infrastructure.BusinessLogic.Auth;
 using AuthDemos.Core.DTOs.Auth;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthDemo.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class AuthController(IAuthBusinessLogic authBusinessLogic)
         : ControllerBase
     {

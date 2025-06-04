@@ -48,14 +48,14 @@ namespace AuthDemo.Infrastructure.Dapper
         {
             var insertQuery = GenerateInsertQuery();
             var parameters = GetScalarProperties(entity);
-            return _connection.Execute(insertQuery, parameters);
+            return _connection.QuerySingle<int>(insertQuery, parameters); 
         }
 
         public async Task<int> InsertAsync(T entity)
         {
             var insertQuery = GenerateInsertQuery();
             var parameters = GetScalarProperties(entity);
-            return await _connection.ExecuteAsync(insertQuery, parameters);
+            return await _connection.QuerySingleAsync<int>(insertQuery, parameters);
         }
 
         public int Update(T entity)
@@ -120,7 +120,7 @@ namespace AuthDemo.Infrastructure.Dapper
 
             insertQuery
                 .Remove(insertQuery.Length - 1, 1)
-                .Append(")");
+                .Append("); SELECT CAST(SCOPE_IDENTITY() AS INT);");
 
             return insertQuery.ToString();
         }
