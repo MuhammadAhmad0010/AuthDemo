@@ -10,7 +10,6 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-
 namespace AuthDemo.Infrastructure.BusinessLogic.Auth
 {
     public class AuthBusinessLogic : IAuthBusinessLogic

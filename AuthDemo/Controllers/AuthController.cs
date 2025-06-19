@@ -7,7 +7,6 @@ namespace AuthDemo.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class AuthController(IAuthBusinessLogic authBusinessLogic)
         : ControllerBase
     {

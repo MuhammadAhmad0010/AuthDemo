@@ -4,13 +4,18 @@ using AuthDemo.Infrastructure.BusinessLogic;
 using AuthDemo.Infrastructure.BusinessLogic.Auth;
 using AuthDemo.Infrastructure.Dapper;
 using AuthDemo.Infrastructure.Dapper.BooksRepository;
+using AuthDemos.Core.DTOs.TypeForms;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerService();
@@ -25,6 +30,10 @@ builder.Services.AddScoped<IBookRepository, BooksRepository>();
 
 builder.Services.AddTransient<IAuthBusinessLogic, AuthBusinessLogic>();
 builder.Services.AddTransient<IAuthorBusinessLogic, AuthorBusinessLogic>();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<TypeFormCredentials>(options => builder.Configuration.GetSection("TypeForm").Bind(options));
 var app = builder.Build();
 
 app.UseSwagger();
